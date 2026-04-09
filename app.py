@@ -9,7 +9,7 @@ import mysql.connector
 
 
 app = Flask(__name__)
-
+server = app 
 # CLAVE NECESARIA PARA USAR SESSION
 
 app.secret_key = "40414732"
