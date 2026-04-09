@@ -9,23 +9,18 @@ def conectar():
         password=os.getenv("MYSQLPASSWORD"),
         database=os.getenv("MYSQLDATABASE")
     )
+    return conexion
 
 #obtener usuarios
-def obtenerusuarios(username):
-    try:
+def  obtenerusuarios(username):
+     #conectar a la base bd
         conn = conectar()
-        if conn is None:
-            return None
-
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM usuarios WHERE username=%s", (username,))
+        #buscar el usuario en la bd
+        cursor.execute("SELECT * FROM usuarios WHERE username=%s",(username,))
         usuario = cursor.fetchone()
         conn.close()
         return usuario
-
-    except Exception as e:
-        print("Error obtenerusuarios:", e)
-        return None
 #obtener los estudiantes
 def  obtenerestudiantes():
      conn = conectar()
