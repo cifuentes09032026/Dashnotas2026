@@ -26,34 +26,29 @@ def add_header(response):
 
     return response
 
-@app.route("/",methods=["GET","POST"])
+@app.route("/", methods=["GET","POST"])
 def login():
 
-    #verificar si el formulario fue enviado
     if request.method == "POST":
-        #capturar los datos del formulario
-
         username = request.form["username"]
         password = request.form["password"]
 
-        usuario = obtenerusuarios(username)
+        try:
+            usuario = obtenerusuarios(username)
+        except Exception as e:
+            return f"Error conexión BD: {str(e)}"  # 👈 TEMPORAL para debug
 
-        #verificar si existe
-        if usuario:
+        if not usuario:
+            return "Usuario no existe"
 
-          if usuario["password"] == password:
+        if usuario["password"] == password:
+            session["username"] = usuario["username"]
+            session["rol"] = usuario["rol"]
+            return redirect("/dashprincipal")
 
-              #creo la sesion del usuario
-              session["username"] = usuario["username"]
-              session["rol"] = usuario["rol"]
+        return "Contraseña incorrecta"
 
-              return redirect("/dashprincipal")
-          else:
-              return "Contraseña incorrecta"
-        else:
-             return "Usuario no existe"
-
-    return  render_template("login.html")
+    return render_template("login.html")
 @app.route("/dashprincipal")
 def dashprinci():
     if "username"  not in session:

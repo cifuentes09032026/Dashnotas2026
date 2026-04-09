@@ -11,15 +11,21 @@ def conectar():
     )
 
 #obtener usuarios
-def  obtenerusuarios(username):
-     #conectar a la base bd
+def obtenerusuarios(username):
+    try:
         conn = conectar()
+        if conn is None:
+            return None
+
         cursor = conn.cursor(dictionary=True)
-        #buscar el usuario en la bd
-        cursor.execute("SELECT * FROM usuarios WHERE username=%s",(username,))
+        cursor.execute("SELECT * FROM usuarios WHERE username=%s", (username,))
         usuario = cursor.fetchone()
         conn.close()
         return usuario
+
+    except Exception as e:
+        print("Error obtenerusuarios:", e)
+        return None
 #obtener los estudiantes
 def  obtenerestudiantes():
      conn = conectar()
