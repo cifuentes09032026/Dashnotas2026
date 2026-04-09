@@ -2,18 +2,13 @@ import mysql.connector
 import os
 import pandas as pd
 def conectar():
-    try:
-        conexion = mysql.connector.connect(
-            host=os.getenv("MYSQLHOST") or "maglev.proxy.rlwy.net",
-            port=int(os.getenv("MYSQLPORT") or 31545),
-            user=os.getenv("MYSQLUSER") or "root",
-            password=os.getenv("MYSQLPASSWORD") or "MNHUmsbIpnxZJTYNvyuRSqgQwaOeWTDt",
-            database=os.getenv("MYSQLDATABASE") or "railway"
-        )
-        return conexion
-    except Exception as e:
-        print("Error de conexión:", e)
-        return None
+    return mysql.connector.connect(
+        host=os.getenv("MYSQLHOST"),
+        port=int(os.getenv("MYSQLPORT")),
+        user=os.getenv("MYSQLUSER"),
+        password=os.getenv("MYSQLPASSWORD"),
+        database=os.getenv("MYSQLDATABASE")
+    )
 
 #obtener usuarios
 def  obtenerusuarios(username):
